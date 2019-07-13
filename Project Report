@@ -1,0 +1,34 @@
+Introduction
+This small project will focus on analysis crime data set based on a public dataset(UCI Machine Learning Repository).
+In this data set it intend to predictnumber of crimal per 100K popuation. Normally prediction is based on this single
+dataset, with foursquare API we can introduce more feature related to location data. With this help we can provide more
+accurate prediction. Although the dataset is very old, we still can see the way of handling these data. This method can
+also be used for new dataset, if it avalible publicly.
+
+Business understanding
+The prediction can be widely used in different area such as estate retailer, governor, police management team and etc.
+Estate retailer can use this prediction as a reference in their advertisement. Also can use this number to set the price.
+Governor can decide how they plan to develop the city. Police department can reference this number to arrange patrol, 
+where to setup new police station, how they assign police officer.
+
+Data
+In this project I will use two dataset the first one is "Communities and Crime Data Set". This data is combined
+socio-economic data from the 1990 US Census, law enforcement data from the 1990 US LEMAS survey,and crime data from
+the 1995 FBI UCR. It contains 1994 instances and 128 attributes, and it also contains missing value. 
+The per capita violent crimes variable was calculated using population and the sum of crime variables 
+considered violent crimes in the United States: murder, rape, robbery, and assault. There was apparently some 
+controversy in some states concerning the counting of rapes. These resulted in missing values for rape, 
+which resulted in incorrect values for per capita violent crime. These cities are not included in the dataset. 
+Many of these omitted communities were from the midwestern USA. Data is described below based on original values. 
+All numeric data was normalized into the decimal range 0.00-1.00 using an Unsupervised, equal-interval binning method. 
+Attributes retain their distribution and skew (hence for example the population attribute has a mean value of 
+0.06 because most communities are small). E.g. An attribute described as 'mean people per household' is actually 
+the normalized (0-1) version of that value. The normalization preserves rough ratios of values WITHIN an attribute 
+(e.g. double the value for double the population within the available precision - except for extreme values 
+(all values more than 3 SD above the mean are normalized to 1.00; all values more than 3 SD below the mean are nromalized
+to 0.00)). However, the normalization does not preserve relationships between values BETWEEN attributes 
+(e.g. it would not be meaningful to compare the value for whitePerCap with the value for blackPerCap for a community) 
+A limitation was that the LEMAS survey was of the police departments with at least 100 officers, plus a random sample 
+of smaller departments. For our purposes, communities not found in both census and crime datasets were omitted. 
+Many communities are missing LEMAS data. Foursquare API will be used based on state county and cmmuinity value. Venues 
+will be retrieve for that community and groupped by number of place of interest, night club and hotel.
