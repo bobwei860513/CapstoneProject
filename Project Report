@@ -1,17 +1,18 @@
-Introduction
+1.Introduction
 This small project will focus on analysis crime data set based on a public dataset(UCI Machine Learning Repository).
 In this data set it intend to predictnumber of crimal per 100K popuation. Normally prediction is based on this single
 dataset, with foursquare API we can introduce more feature related to location data. With this help we can provide more
 accurate prediction. Although the dataset is very old, we still can see the way of handling these data. This method can
 also be used for new dataset, if it avalible publicly.
 
-Business understanding
+1.1Business understanding
 The prediction can be widely used in different area such as estate retailer, governor, police management team and etc.
 Estate retailer can use this prediction as a reference in their advertisement. Also can use this number to set the price.
 Governor can decide how they plan to develop the city. Police department can reference this number to arrange patrol, 
 where to setup new police station, how they assign police officer.
 
-Data
+2.Data
+2.1 Data Source
 In this project I will use two dataset the first one is "Communities and Crime Data Set". This data is combined
 socio-economic data from the 1990 US Census, law enforcement data from the 1990 US LEMAS survey,and crime data from
 the 1995 FBI UCR. It contains 1994 instances and 128 attributes, and it also contains missing value. 
@@ -32,3 +33,39 @@ A limitation was that the LEMAS survey was of the police departments with at lea
 of smaller departments. For our purposes, communities not found in both census and crime datasets were omitted. 
 Many communities are missing LEMAS data. Foursquare API will be used based on state county and cmmuinity value. Venues 
 will be retrieve for that community and groupped by number of place of interest, night club and hotel.
+
+2.2 Data cleaning
+This data set has two version. The one mainly used in this project is normalized one. But its location data is also masked,
+so I introduced the unnormalized data to get location. In unnormalized data use 'communityname' and 'state' to construct new
+location attribute 'address'. Then merge this attribute back to normalized data set. In normalized data set it contains lots 
+of missing values. 23 out of 126 attribute has missing value. Since all data are independent so I removed column which contains
+missing values. As a result data become 1994 rows and 103 column including target.
+
+2.3 Feature engineer
+After cleaned data, I try to exam correlation amonge atrribute and target value(total number of violent crimes per 100K 
+popuation (numeric - decimal) GOAL attribute). I selected all attributes which correlation greater than 0.5 as input attribute.
+Now attribute left are 27 attributes. Then I use scatter diagram to view the relationship between input attribute with our
+target value. Diagrams can be viewed in my notebook. All feature selected looks correlated with targets.
+
+27 attribute selected are ['PctKids2Par', 'racePctWhite', 'PctIlleg', 'NumIlleg', 'PctPopUnderPov', 'PctPersDenseHous', 
+'HousVacant', 'FemalePctDiv', 'pctWInvInc', 'agePct12t29', 'PctLargHouseOccup', 'racepctblack', 'OwnOccMedVal', 'PctFam2Par',
+'PctUsePubTrans', 'medIncome', 'NumStreet', 'MalePctDivorce', 'PctImmigRec8', 'PctLargHouseFam', 'LandArea', 'PctNotHSGrad',
+'pctWFarmSelf', 'perCapInc', 'agePct12t21', 'PctHousLess3BR', 'pctWPubAsst']
+
+Then I try to built an regression model based on all these features. Data set is separated into train and test data set, and
+proportion is 8:2. Then apply xgboost regression model on data set. Use scikit-learn grid parameter search to find best 
+parameter combination. Model on train set shows 0.63 R-square, but only have 0.32 on testing set. With this result model shows
+over-fit on training data set.
+
+Thd problem may caused by incorrect feature selection. Try to use another way of feature selection. Train a xgboost model on
+whole data set. And use predictive importance of this model to filter out features. In expirement, I tried importance greater
+then 0.04, 0.05, 0.06, 0.07 and 0.08. And selection five set of different features.
+
+3. Data analysis
+Relationship between target and percentage of population that is african american, percentage of population that is caucasian
+Scatter chart shows less percentage of african american will have lower crime rate. But these two didn't have obvious linear 
+relationship. When precentage of african american lower than 0.2, most Target value is smaller than 0.4. The contrary the more
+percentage of population that is caucasian, the lower crime rate are. When percentage of population that is caucasian is greater
+than 0.8 crime rate is lower than 0.2.
+
+
